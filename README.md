@@ -1,81 +1,203 @@
-AI Project Intelligence & Risk Advisor
-Python FastAPI Streamlit Machine Learning Generative AI
+# 🧠 AI Project Intelligence & Risk Advisor
 
-An integrated, end-to-end platform for predicting, analyzing, and mitigating project risks using Machine Learning and Generative AI. This platform empowers both IT and Non-IT stakeholders with advanced schedule forecasting, what-if simulations, dependency analysis, and an intelligent RAG-powered chatbot.
+An end-to-end intelligent project management platform that uses **Machine Learning, Graph Analysis, What-If Simulation, and Generative AI** to predict project risks, analyze dependencies, forecast schedules, and provide actionable insights.
 
-Key Features
-Role-Based Access: Dedicated workflows and dashboards for IT and Non-IT users.
-** AI Risk Prediction**: Leverages XGBoost and CatBoost to forecast project risks and project health.
-** Schedule Intelligence**: Deadline forecasting, milestone tracking, and delay impact analysis.
-** Dependency Tracking**: Critical path analysis using NetworkX to visualize bottlenecks.
-** What-If Simulation**: Safely test different scenarios (e.g., budget cuts, resource constraints) without affecting production data.
-** RAG Assistant**: A GenAI-powered chatbot (Google GenAI + Qdrant) that acts as an intelligence advisor over uploaded project documents (PDF, DOCX).
-** Interactive Dashboard**: Built with Streamlit for a rich, dynamic user experience.
-System Architecture
-The architecture is decoupled into a reactive frontend, a robust API backend, machine learning predictive models, and a Generative AI intelligence layer.
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-green)
+![Streamlit](https://img.shields.io/badge/Streamlit-red)
+![ML](https://img.shields.io/badge/ML-XGBoost%20%7C%20CatBoost-orange)
+![GenAI](https://img.shields.io/badge/GenAI-Google%20GenAI-purple)
+![Vector DB](https://img.shields.io/badge/VectorDB-Qdrant-blue)
 
+---
 
-Technology Stack
-Frontend: Streamlit, Requests
-Backend: FastAPI, Pydantic, SQLAlchemy, Alembic, Uvicorn
-Database: SQLite (default for local execution), PostgreSQL supported
-Machine Learning: Scikit-Learn, XGBoost, CatBoost, NetworkX, Pandas, NumPy
-Generative AI / NLP: Google GenAI, Qdrant (Vector Database), PyPDF, docx2txt
-Getting Started (Windows + Anaconda)
-Follow these steps to run the application locally on your Windows machine.
+## 🚀 Key Features
 
-1. Create Environment
-First, create and activate a new Conda environment.
+* 🔐 **Role-Based Access** — IT and Non-IT project workflows
+* 🤖 **AI Risk Prediction** — XGBoost & CatBoost risk forecasting
+* 📅 **Schedule Intelligence** — deadline and milestone analysis
+* 🔗 **Dependency Analysis** — NetworkX and Critical Path Method
+* 🔮 **What-If Simulation** — test resource and schedule scenarios
+* 📚 **RAG Assistant** — AI chatbot for PDF/DOCX project documents
+* 📊 **Interactive Dashboard** — Streamlit-based project intelligence
 
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TB
+    U[👤 Project Stakeholder]
+
+    U --> F[🖥️ Streamlit Frontend]
+
+    F <-->|REST API| B[⚡ FastAPI Backend]
+
+    B --> ML[🤖 ML Risk Engine]
+    B --> G[🔗 Dependency & CPM Engine]
+    B --> S[🔮 What-If Simulation]
+    B --> DB[(🗄️ SQLite / PostgreSQL)]
+
+    ML --> X[XGBoost]
+    ML --> C[CatBoost]
+
+    B --> R[📚 RAG Pipeline]
+    R --> Q[(🔎 Qdrant)]
+    R --> AI[✨ Google GenAI]
+
+    F --> D[📄 PDF / DOCX Upload]
+    D --> R
+```
+
+---
+
+## 🔄 How It Works
+
+```text
+Project Data
+     ↓
+FastAPI Backend
+     ↓
+ ┌──────────────┬──────────────┬──────────────┐
+ │              │              │              │
+ ▼              ▼              ▼              ▼
+ML Risk      Dependency     What-If        RAG AI
+Prediction   & CPM Analysis  Simulation     Assistant
+ │              │              │              │
+ └──────────────┴──────────────┴──────────────┘
+                       ↓
+              Project Intelligence
+                       ↓
+              Streamlit Dashboard
+```
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer          | Technologies                           |
+| -------------- | -------------------------------------- |
+| Frontend       | Streamlit, Requests                    |
+| Backend        | FastAPI, Pydantic, SQLAlchemy, Alembic |
+| Database       | SQLite, PostgreSQL                     |
+| ML             | Scikit-learn, XGBoost, CatBoost        |
+| Graph Analysis | NetworkX                               |
+| GenAI / RAG    | Google GenAI, Qdrant                   |
+| Documents      | PyPDF, docx2txt                        |
+| Server         | Uvicorn                                |
+
+---
+
+## 📁 Project Structure
+
+```text
+AI_project/
+└── final_project/
+    ├── app.py
+    ├── requirements.txt
+    ├── start_all.bat
+    │
+    └── backend/
+        ├── app/
+        │   ├── api/
+        │   ├── models/
+        │   ├── schemas/
+        │   ├── services/
+        │   └── ml/
+        ├── scripts/
+        ├── tests/
+        └── alembic/
+```
+
+---
+
+## ⚙️ Installation
+
+### 1. Create Environment
+
+```bash
 conda create -n project_ai python=3.11 -y
 conda activate project_ai
-2. Install Dependencies
-Install all required packages from requirements.txt.
+```
 
+### 2. Install Dependencies
+
+```bash
 cd AI_project/final_project
 pip install -r requirements.txt
-3. Quick Start (All-in-One)
-You can use the provided batch script to start both the backend and frontend seamlessly. The script activates the .venv or conda environment automatically and spawns two processes.
+```
 
-cd AI_project/final_project
-start_all.bat
-Alternatively, you can run them in separate terminals as shown below.
+### 3. Configure `.env`
 
-4. Start Backend (Manual)
-Open Anaconda Prompt 1:
+```env
+GOOGLE_API_KEY=your_google_api_key
+USE_CLOUD_AI=true
+QDRANT_URL=your_qdrant_url
+QDRANT_API_KEY=your_qdrant_api_key
+```
 
-cd AI_project/final_project/backend
+### 4. Initialize Backend
+
+```bash
+cd backend
+alembic upgrade head
 set PYTHONPATH=.
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
-API Base URL: http://127.0.0.1:8000
-API Documentation (Swagger): http://127.0.0.1:8000/docs
-5. Start Frontend (Manual)
-Open Anaconda Prompt 2:
 
+python scripts/generate_training_data.py
+python -m app.ml.train
+python scripts/seed.py
+```
+
+---
+
+## ▶️ Run the Application
+
+### Backend
+
+```bash
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+### Frontend
+
+Open another terminal:
+
+```bash
 cd AI_project/final_project
 conda activate project_ai
 python -m streamlit run app.py
-Streamlit UI: http://localhost:8501
-Recreate Demo Data & ML Models
-If you want to clear the database, regenerate synthetic training data, and retrain the ML models, run the following commands from the backend directory:
+```
 
-cd AI_project/final_project/backend
-set PYTHONPATH=.
+### 🌐 URLs
 
-# 1. Generate training data
-python scripts/generate_training_data.py
+| Service       | URL                           |
+| ------------- | ----------------------------- |
+| 🖥️ Streamlit | `http://localhost:8501`       |
+| ⚡ FastAPI     | `http://127.0.0.1:8000`       |
+| 📘 Swagger    | `http://127.0.0.1:8000/docs`  |
+| 📖 ReDoc      | `http://127.0.0.1:8000/redoc` |
 
-# 2. Train ML models (XGBoost/CatBoost)
-python -m app.ml.train
+---
 
-# 3. Seed demo project in the database
-python scripts/seed.py
-Note: seed.py will clear the existing demo project and recreate it.
+## 🧪 Testing
 
-Environment Variables
-For the Generative AI and RAG features to work, you may need to configure a .env file in the AI_project/final_project directory.
+```bash
+cd backend
+pytest
+```
 
-GEMINI_API_KEY=your_gemini_api_key_here
-USE_CLOUD_AI=true
-QDRANT_URL=your_qdrant_url_here
-QDRANT_API_KEY=your_qdrant_api_key_here
+---
+
+## 🐳 Docker
+
+```bash
+docker compose up --build
+```
+
+---
+
+## 🎯 Project Goal
+
+> **Predict risks early, understand project dependencies, simulate possible outcomes, and provide AI-powered recommendations for better project decisions.**
+
+### ⭐ Predict • Analyze • Simulate • Advise
